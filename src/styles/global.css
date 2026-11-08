@@ -3,9 +3,14 @@
 @import "./typography.css";
 @import "rehype-callouts/theme/obsidian";
 
+@import "./source-han.css";
+
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @layer base {
+  code, pre, kbd, samp {
+    font-family: var(--font-google-sans-code), monospace;
+  }
   * {
     @apply border-border outline-accent/75;
     scrollbar-width: auto;

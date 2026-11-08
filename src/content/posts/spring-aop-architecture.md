@@ -3,6 +3,7 @@ title: 重学 Spring（二）：AOP的设计与扩展
 pubDatetime: 2026-11-08T09:00:00+08:00
 description: 从动态代理出发，梳理 Spring AOP 的核心组件及协作机制，理解 Advisor、拦截器链与适配器的设计思想，以及 AOP 如何与 Bean 容器集成。
 tags: ["软件架构","Spring","重学 Spring"]
+cover: ./images/spring-aop-cover.png
 ---
 我第一次接触AOP概念就是从Spring开始的。Aspect-oriented Programming 面向切面编程，使用AOP在程序的效果我应该不需要再赘述了。这次我主要是记录下Spring-aop为我们带来了什么，它又是通过怎样的设计来实现的。
 
@@ -13,7 +14,7 @@ Spring-AOP的实现基础就是对象的动态代理机制。JDK 提供了基于
 ```mermaid
 flowchart LR
     A["Target Bean"] -- BeanFactory --> B["AOP Bean"] -- InvocationHandler.invoke()-->C["Interceptor Chain"] -->D["Target method"]
-    
+
 ```
 
 下面我们使用更细的视角看下AOP在这2方面是如何实现的。
