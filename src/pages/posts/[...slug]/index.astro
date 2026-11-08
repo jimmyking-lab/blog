@@ -141,9 +141,9 @@ const ogImage = ogImageUrl
       cover && (
         <div class="mt-8 overflow-hidden rounded-lg">
           {typeof cover === "string" ? (
-            <img src={cover} alt={coverAlt} class="h-auto w-full" />
+            <img src={cover} alt={coverAlt} fetchpriority="high" class="h-auto w-full" />
           ) : (
-            <Image src={cover} alt={coverAlt} class="h-auto w-full" />
+            <Image src={cover} alt={coverAlt} loading="eager" fetchpriority="high" class="h-auto w-full" />
           )}
         </div>
       )
