@@ -3,6 +3,8 @@ title: 重学 Spring（一）：Bean 容器的设计与扩展
 pubDatetime: 2026-11-04T21:40:00+08:00
 description: 重新学习 Spring Beans，从 BeanDefinition、BeanFactory 到 BeanPostProcessor，理解 Bean 容器的组件设计、生命周期及扩展机制。
 tags: ["软件架构","Spring","重学 Spring"]
+cover: ./images/spring-beans-cover.png
+
 ---
 从参加工作开始就使用Spring，Spring从容器到MVC到Cloud，差不多成了Java后端开发的标配。但是，拥有这么多年Spring使用经验的我，至今感觉还只会Spring的一些皮毛，更多在使用Spring提供的能力，而较少思考这些能力时如何设计的，以及如何利用Spring的扩展机制解决更复杂的问题。作为一个发展了这么多年的Spring框架，之所以经久不衰，他的设计理念和架构一定有非常丰富的知识值得我去学习。AI时代的来临，最让我兴奋的一点就是让学习的门槛大大降低，从今天开始我打算写一个关于Spring的学习系列。我将从Spring-beans开始，逐个模块的深入他们的架构思路、组件划分及组件间的协调，内容不会涉及太多的代码实现细节。我的目的就是让我理解Spring的架构设计，学习它组织组件、协调组件及处理变化的思路；了解Spring已经提供了哪些扩展能力，以便未来遇到合适的需求时能够利用它们。
 

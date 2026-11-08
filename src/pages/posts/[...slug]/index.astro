@@ -248,7 +248,9 @@ const ogImage = ogImageUrl
 
   function attachCopyButtons() {
     const copyButtonLabel = "Copy";
-    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+    const codeBlocks = Array.from(
+      document.querySelectorAll("pre:not(.mermaid)")
+    );
 
     for (const codeBlock of codeBlocks) {
       const wrapper = document.createElement("div");
@@ -316,9 +318,15 @@ const ogImage = ogImageUrl
           image.alt ? `Zoom image: ${image.alt}` : "Zoom image"
         );
       }
+      for (const diagram of article.querySelectorAll("pre.mermaid")) {
+        diagram.setAttribute("role", "button");
+        diagram.setAttribute("tabindex", "0");
+        diagram.setAttribute("aria-haspopup", "dialog");
+        diagram.setAttribute("aria-label", "查看架构图大图");
+      }
     });
 
-    function open(src, alt, trigger) {
+    function open(src, alt, trigger, diagramSvg = null) {
       if (overlay) return;
       lastFocused = trigger ?? document.activeElement;
 
@@ -331,6 +339,9 @@ const ogImage = ogImageUrl
       );
       overlay.className =
         "fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/70 backdrop-blur-sm opacity-0 transition-opacity duration-200 motion-reduce:transition-none";
+      if (diagramSvg) {
+        overlay.classList.remove("cursor-zoom-out");
+      }
 
       const closeButton = document.createElement("button");
       closeButton.type = "button";
@@ -340,11 +351,25 @@ const ogImage = ogImageUrl
       closeButton.innerHTML = "&#10005;";
       closeButton.addEventListener("click", close);
 
-      const image = document.createElement("img");
-      image.src = src;
-      image.alt = "";
-      image.className =
-        "max-h-[90dvh] max-w-[90dvw] cursor-default object-contain";
+      const image = diagramSvg
+        ? diagramSvg.cloneNode(true)
+        : document.createElement("img");
+      if (diagramSvg) {
+        image.style.width = "90dvw";
+        image.style.height = "90dvh";
+        image.style.maxWidth = "90dvw";
+        image.style.maxHeight = "90dvh";
+        image.style.background =
+          document.documentElement.dataset.theme === "dark"
+            ? "#1b1b1b"
+            : "#fff";
+        image.style.borderRadius = "0.5rem";
+      } else {
+        image.src = src;
+        image.alt = "";
+        image.className =
+          "max-h-[90dvh] max-w-[90dvw] cursor-default object-contain";
+      }
 
       overlay.append(closeButton, image);
       overlay.addEventListener("click", e => {
@@ -376,6 +401,7 @@ const ogImage = ogImageUrl
       overlay.addEventListener(
         "touchstart",
         e => {
+          if (diagramSvg) return;
           const t = e.touches;
           if (t.length === 2) {
             initialDist = Math.hypot(
@@ -417,6 +443,7 @@ const ogImage = ogImageUrl
       overlay.addEventListener(
         "touchmove",
         e => {
+          if (diagramSvg) return;
           const t = e.touches;
           if (t.length === 2) {
             e.preventDefault();
@@ -456,12 +483,14 @@ const ogImage = ogImageUrl
       );
 
       overlay.addEventListener("touchend", e => {
+        if (diagramSvg) return;
         if (e.touches.length === 0 && currentScale <= 1.05) {
           resetTransform();
         }
       });
 
       overlay.addEventListener("touchcancel", e => {
+        if (diagramSvg) return;
         if (e.touches.length === 0 && currentScale <= 1.05) {
           resetTransform();
         }
@@ -534,6 +563,12 @@ const ogImage = ogImageUrl
     }
 
     article.addEventListener("click", e => {
+      const diagram = e.target.closest("pre.mermaid");
+      const svg = diagram?.querySelector("svg");
+      if (svg) {
+        open("", "架构图", diagram, svg);
+        return;
+      }
       const image = triggerFromEvent(e);
       if (!image) return;
       e.preventDefault();
@@ -542,6 +577,13 @@ const ogImage = ogImageUrl
 
     article.addEventListener("keydown", e => {
       if (e.key !== "Enter" && e.key !== " " && e.key !== "Spacebar") return;
+      const diagram = e.target.closest("pre.mermaid");
+      const svg = diagram?.querySelector("svg");
+      if (svg) {
+        e.preventDefault();
+        open("", "架构图", diagram, svg);
+        return;
+      }
       const image = triggerFromEvent(e);
       if (!image) return;
       e.preventDefault();

@@ -136,3 +136,7 @@
     }
   }
 }
+
+.app-prose pre.mermaid {
+  cursor: pointer;
+}
