@@ -3,7 +3,7 @@ import { defineAstroPaperConfig } from "./src/types/config";
 export default defineAstroPaperConfig({
   site: {
     url: "https://aixming.com/",
-    title: "MJ的博客",
+    title: "金明的博客",
     description: "Personal blog of MJ.",
     author: "Ming.Jin",
     ogImage: "default-og.jpg",
@@ -13,7 +13,7 @@ export default defineAstroPaperConfig({
   },
   posts: {
     perPage: 4,
-    perIndex: 4,
+    perIndex: 10,
     scheduledPostMargin: 15 * 60 * 1000,
   },
   features: {

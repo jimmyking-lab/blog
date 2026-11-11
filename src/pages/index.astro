@@ -1,7 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { Image } from "astro:assets";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import homeBanner from "@/assets/images/home-crosswalk.webp";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
@@ -31,6 +33,16 @@ const homePath = getRelativeLocaleUrl(locale, "");
     data-home-path={homePath}
     class="app-layout my-1"
   >
+    <section class="home-intro" aria-labelledby="home-intro-title">
+      <Image src={homeBanner} alt="" class="home-banner" loading="eager" />
+      <div class="home-intro-text">
+        <h1 id="home-intro-title">你好，我是金明。</h1>
+        <p class="home-intro-description">
+          这里记录我的学习、实践，还有一些想法。
+        </p>
+      </div>
+    </section>
+
     {
       featuredPosts.length > 0 && (
         <section
@@ -87,3 +99,57 @@ const homePath = getRelativeLocaleUrl(locale, "");
     }
   });
 </script>
+
+<style>
+  .home-intro {
+    position: relative;
+    margin-top: 2.5rem;
+    overflow: hidden;
+    border-radius: 0.25rem;
+    background: #303b3c;
+  }
+
+  .home-intro::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgb(20 27 31 / 80%),
+      rgb(20 27 31 / 20%)
+    );
+    content: "";
+  }
+
+  .home-intro-text {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.5rem clamp(1.5rem, 5vw, 3rem);
+    color: #fff;
+  }
+
+  .home-intro h1 {
+    font-size: clamp(1.75rem, 5vw, 2.25rem);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
+
+  .home-intro-description {
+    max-width: 34rem;
+    margin-top: 0.75rem;
+    color: #fff;
+    line-height: 1.8;
+  }
+
+  .home-banner {
+    display: block;
+    width: 100%;
+    height: clamp(13rem, 35vw, 18rem);
+    object-fit: cover;
+    object-position: center top;
+  }
+</style>
