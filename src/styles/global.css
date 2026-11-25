@@ -31,7 +31,12 @@
 }
 
 @utility app-layout {
-  @apply max-w-app mx-auto w-full px-4;
+  @apply mx-auto w-full px-4;
+  max-width: var(--app-layout-max-width, var(--container-3xl));
+}
+
+.wide-layout {
+  --app-layout-max-width: var(--container-4xl);
 }
 
 @utility active-nav {
