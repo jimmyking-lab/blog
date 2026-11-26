@@ -4,6 +4,11 @@ import { stripBase, stripLocale } from "@/utils/withBase";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
 
+type Props = {
+  pageTitle?: string;
+};
+
+const { pageTitle } = Astro.props;
 const locale = Astro.currentLocale ?? config.site.lang;
 const t = useTranslations(locale);
 
@@ -14,7 +19,9 @@ const currentUrlPath = stripLocale(pathWithoutBase, locale);
 
 // Get url array from path
 // eg: /tags/tailwindcss => ['tags', 'tailwindcss']
-const breadcrumbList = currentUrlPath.split("/").slice(1).filter(Boolean);
+const breadcrumbList = pageTitle
+  ? [pageTitle]
+  : currentUrlPath.split("/").slice(1).filter(Boolean);
 
 const decodeSegment = (value: string) => {
   try {

@@ -1,0 +1,34 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Card from "@/components/Card.astro";
+import Footer from "@/components/Footer.astro";
+import { getPublishedSeries } from "@/utils/getPublishedSeries";
+import config from "@/config";
+
+export const getStaticPaths = (async () => {
+  const series = await getPublishedSeries();
+  return series.map(({ slug, title, posts }) => ({
+    params: { series: slug },
+    props: { title, posts },
+  }));
+}) satisfies GetStaticPaths;
+
+const { title, posts } = Astro.props;
+---
+
+<Layout title={`${title} | ${config.site.title}`}>
+  <Header />
+  <Breadcrumb pageTitle={title} />
+
+  <Main pageTitle={title}>
+    <ul>
+      {posts.map(post => <Card {...post} />)}
+    </ul>
+  </Main>
+
+  <Footer />
+</Layout>
