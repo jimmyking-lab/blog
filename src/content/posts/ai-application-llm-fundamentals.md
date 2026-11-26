@@ -1,5 +1,5 @@
 ---
-title: AI应用开发与架构（一）：如何将 LLM 集成到软件系统中
+title: AI 应用开发（一）：如何将 LLM 集成到软件系统中
 pubDatetime: 2026-11-25T15:56:00+08:00
 description: 从实际实验出发，认识 LLM 的非确定性、Prompt、Temperature、结构化输出与流式响应机制，探讨如何将基于概率的计算能力集成到一个需要可靠运行的软件系统中。
 tags: ["AI应用开发"]
